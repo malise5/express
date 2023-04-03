@@ -42,10 +42,37 @@ app.get("/api/v1/tours/:id", (req, res) => {
 
   const tour = tours.find((el) => el.id === id);
 
+  if (!tour) {
+    return res.status(404).json({
+      status: "Error",
+      message: "Invalid id passed",
+    });
+  }
+
   res.status(200).json({
     status: "Success",
     data: {
       tours: tour,
+    },
+  });
+});
+
+//PATCH REQUEST
+app.patch("/api/v1/tours/:id", (req, res) => {
+  const id = Number(req.params.id);
+  const tour = tours.find((el) => el.id === id);
+
+  if (id > tours.length) {
+    return res.status(404).json({
+      status: "Error",
+      message: "Invalid id passed",
+    });
+  }
+
+  res.status(200).json({
+    status: "Success",
+    data: {
+      tours: "<Updated tur hear>",
     },
   });
 });
