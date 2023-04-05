@@ -1,14 +1,23 @@
 const Tour = require("./../model/tourModel");
 
-exports.getAllTours = (req, res) => {
-  console.log(req.requestTime);
-  res.status(200).json({
-    status: "success",
-    // results: tours.length,
-    // data: {
-    //   tours: tours,
-    // },
-  });
+//getting all the tours
+exports.getAllTours = async (req, res) => {
+  try {
+    const tours = await Tour.find();
+
+    res.status(200).json({
+      status: "success",
+      results: tours.length,
+      data: {
+        tours,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "Failed",
+      message: err.message,
+    });
+  }
 };
 
 exports.createTour = async (req, res) => {
@@ -25,30 +34,47 @@ exports.createTour = async (req, res) => {
       },
     });
   } catch (err) {
-    console.log(err);
+    res.status(400).json({
+      status: "Failed to create tour",
+      message: err,
+    });
   }
 };
 
-exports.getTour = (req, res) => {
-  const id = Number(req.params.id);
-
-  // const tour = tours.find((el) => el.id === id);
-
-  // res.status(200).json({
-  //   status: "Success",
-  //   data: {
-  //     tours: tour,
-  //   },
-  // });
+exports.getTour = async (req, res) => {
+  try {
+    const tour = await Tour.findById(req.params.id);
+    res.status(200).json({
+      status: "Success",
+      data: {
+        tours: tour,
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "Failed",
+      message: err,
+    });
+  }
 };
 
-exports.updateTour = (req, res) => {
-  res.status(200).json({
-    status: "Success",
-    data: {
-      tours: "<Updated tur hear>",
-    },
-  });
+exports.updateTour = async (req, res) => {
+  try {
+    const tour = await Tour.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    res.status(200).json({
+      status: "Success",
+      data: {
+        tours: "<Updated tur hear>",
+      },
+    });
+  } catch (err) {
+    res.status(404).json({
+      status: "failed",
+      message: err,
+    });
+  }
 };
 
 exports.deleteTour = (req, res) => {
