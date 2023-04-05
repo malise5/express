@@ -1,17 +1,16 @@
 const express = require("express");
-const fs = require("fs");
 const {
   getAllTours,
   createTour,
   getTour,
   updateTour,
   deleteTour,
-  checkID,
+  // checkID,
 } = require("../controller/tourController");
 
 const router = express.Router();
 
-router.param("id", checkID);
+// router.param("id", checkID);
 
 /*========================================================== */
 
