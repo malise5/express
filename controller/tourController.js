@@ -8,6 +8,7 @@ const tours = JSON.parse(fs.readFileSync(`${__dirname}/../data/data.json`));
 /*====================PARAMS=================================== */
 exports.checkID = (req, res, next, val) => {
   console.log(`Tour id is ${val}`);
+  console.log("kudez");
 
   if (Number(req.params.id) > tours.length) {
     return res.status(404).json({
@@ -59,6 +60,8 @@ exports.getTour = (req, res) => {
 };
 
 exports.updateTour = (req, res) => {
+  const id = Number(req.params.id);
+
   const tour = tours.find((el) => el.id === id);
 
   res.status(200).json({
@@ -71,7 +74,6 @@ exports.updateTour = (req, res) => {
 
 exports.deleteTour = (req, res) => {
   const tour = tours.find((el) => el.id === id);
-
   res.status(204).json({
     status: "Deleted Success",
     data: null,
